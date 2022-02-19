@@ -9,11 +9,6 @@ export default defineConfig({
   server: {
     open: true,
   },
-  resolve: {
-    alias: {
-      '@stores': path.resolve(__dirname, './stores'),
-      '@components': path.resolve(__dirname, './components'),
-    },
   },
   plugins: [svelte({ preprocess: sveltePreprocess() })],
 });
