@@ -1,13 +1,119 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="text-slate-500 dark:text-slate-400 bg-white dark:bg-slate-900">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" href="/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Copy Places</title>
     <link rel="stylesheet" href="./entry/style.css" />
+    <link rel="stylesheet" href="./entry/prism.css" />
   </head>
-  <body>
+  <body class="mx-6 lg:mx-16 xl:mx-24 max-w-7xl">
+    <main id="app" class="lg:grid lg:grid-cols-2 gap-12 items-center py-10"></main>
+
+    <section class="py-10 prose prose-slate dark:prose-invert max-w-none lg:prose-xl">
+      <p>
+        Google Maps doesn't support importing data, so the only way to save a place is to
+        visit it and manually click on the button. I had over 750 starred places around
+        the world, so I wrote this script to automate the task. The script opens each
+        place in a new tab, then finds and clicks the Save button.
+      </p>
+      <h2>How to copy starred places</h2>
+      <ol>
+        <li>
+          Export your maps data from
+          <a href="https://takeout.google.com/settings/takeout" target="_blank">
+            Google Takeout </a
+          >.
+          <a
+            href="#how-to-export-data-from-google-takeout"
+            class="text-sm no-underline hidden"
+          >
+            See detailed instructions.
+          </a>
+        </li>
+        <li>
+          Upload <code>Takeout/Maps (your places)/Saved Places.json</code>
+          to the form above.
+        </li>
+        <li>
+          In a new tab, open
+          <a href="https://www.google.com/maps" target="_blank">Google Maps</a>
+          and switch to the <em>other Google Account</em>.
+        </li>
+        <li>
+          Copy the generated code from above, then paste it into the JavaScript Console.
+        </li>
+      </ol>
+    </section>
+
+    <section class="py-10 prose prose-slate dark:prose-invert">
+      <h2>FAQ</h2>
+      <dl>
+        <dt id="how-to-export-data-from-google-takeout">
+          <h3>How to export data from Google Takeout.</h3>
+        </dt>
+        <dl>
+          <ol>
+            <li>
+              Visit
+              <a href="https://takeout.google.com/settings/takeout" target="_blank">
+                Google Takeout </a
+              >.
+            </li>
+            <li>Under Select data to include, click <strong>Deselect all</strong>.</li>
+            <li>Check <strong>Maps (your places)</strong>.</li>
+            <li>Click <strong>Next step</strong> at the bottom of the page.</li>
+            <li>
+              Under Choose file type, frequency & destination, select
+              <strong>Export once</strong>
+              and <strong>.zip</strong> file type.
+            </li>
+            <li>Click <strong>Create export</strong> at the bottom the page.</li>
+            <li>
+              The export will start and take anywhere from a few moments to a few hours.
+              You'll receive and email to download the .zip file when it's ready. You can
+              close the page.
+            </li>
+            <li>
+              After you download the .zip file, unzip it, then upload
+              <code>Takeout/Maps (your places)/Saved Places.json</code>
+              to the form above.
+            </li>
+          </ol>
+          <dt><h3>How to open the JavaScript Console</h3></dt>
+          <dl>
+            It's a little different in each browser, but in most you can right-click and
+            choose Inspect. On Google Maps, you'll need to click on something
+            <em>other than the map itself</em>, like the Search Google Maps input box.
+            <ul>
+              <li>
+                <strong>On Chrome:</strong> ⌘ + shift + j or ctrl + shift + j or
+                right-click and choose Inspect or View > Developer > JavaScript Console
+              </li>
+              <li>
+                <strong>On Firefox:</strong> ⌘ + shift + j or ctrl + shift + j or
+                right-click and choose Inspect or Tools > Browser Tools > Browser Console
+              </li>
+              <li>
+                <strong>On Safari:</strong> ⌘ + ctrl + c or right-click and choose Inspect
+                Element or Develop > Show JavaScript Console. You'll need to enable the
+                Develop menu in Preferences > Advanced > Show Develop menu in menu bar.
+              </li>
+            </ul>
+          </dl>
+          <dt>
+            <h3>I got "TypeError: null is not an object" after pasting the code!</h3>
+          </dt>
+          <dl>
+            Your pop-up blocker is blocking the script. You'll need to enable pop-ups
+            momentarily and can usually do it by clicking on the pop-up icon in the
+            address bar.
+          </dl>
+        </dl>
+      </dl>
+    </section>
+
     <script type="module" src="./entry/app.ts"></script>
   </body>
 </html>

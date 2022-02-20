@@ -1,0 +1,101 @@
+/* PrismJS 1.27.0
+https://prismjs.com/download.html#themes=prism-tomorrow&languages=clike+javascript */
+code[class*='language-'],
+pre[class*='language-'] {
+  color: #ccc;
+  background: 0 0;
+  font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+  font-size: 1em;
+  text-align: left;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  word-wrap: normal;
+  line-height: 1.5;
+  -moz-tab-size: 4;
+  -o-tab-size: 4;
+  tab-size: 4;
+  -webkit-hyphens: none;
+  -moz-hyphens: none;
+  -ms-hyphens: none;
+  hyphens: none;
+}
+pre[class*='language-']:first-line {
+  line-height: 0;
+}
+pre[class*='language-'] {
+  padding: 1em;
+  margin: 0.5em 0;
+  overflow: auto;
+}
+:not(pre) > code[class*='language-'],
+pre[class*='language-'] {
+  background: #2d2d2d;
+}
+:not(pre) > code[class*='language-'] {
+  padding: 0.1em;
+  border-radius: 0.3em;
+  white-space: normal;
+}
+.prismjs .block-comment,
+.prismjs .cdata,
+.prismjs .comment,
+.prismjs .doctype,
+.prismjs .prolog {
+  color: #999;
+}
+.prismjs .punctuation {
+  color: #ccc;
+}
+.prismjs .attr-name,
+.prismjs .deleted,
+.prismjs .namespace,
+.prismjs .tag {
+  color: #e2777a;
+}
+.prismjs .function-name {
+  color: #6196cc;
+}
+.prismjs .boolean,
+.prismjs .function,
+.prismjs .number {
+  color: #f08d49;
+}
+.prismjs .class-name,
+.prismjs .constant,
+.prismjs .property,
+.prismjs .symbol {
+  color: #f8c555;
+}
+.prismjs .atrule,
+.prismjs .builtin,
+.prismjs .important,
+.prismjs .keyword,
+.prismjs .selector {
+  color: #cc99cd;
+}
+.prismjs .attr-value,
+.prismjs .char,
+.prismjs .regex,
+.prismjs .string,
+.prismjs .variable {
+  color: #7ec699;
+}
+.prismjs .entity,
+.prismjs .operator,
+.prismjs .url {
+  color: #67cdcc;
+}
+.prismjs .bold,
+.prismjs .important {
+  font-weight: 700;
+}
+.prismjs .italic {
+  font-style: italic;
+}
+.prismjs .entity {
+  cursor: help;
+}
+.prismjs .inserted {
+  color: green;
+}
