@@ -9,6 +9,5 @@ export default defineConfig({
   server: {
     open: true,
   },
-  },
   plugins: [svelte({ preprocess: sveltePreprocess() })],
 });
