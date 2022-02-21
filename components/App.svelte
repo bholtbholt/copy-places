@@ -36,8 +36,11 @@
   <p class="text-2xl lg:text-3xl mb-10 lg:font-light text-blue-500">
     Copy starred places from one Google Maps account to another.
   </p>
+  <label class="sr-only" for="upload">Maps data</label>
   <input
-    class="p-3 rounded-xl bg-amber-100 dark:bg-slate-700 mb-2"
+    id="upload"
+    name="upload"
+    class="p-3 rounded-xl bg-slate-200 dark:bg-slate-700 mb-2"
     type="file"
     accept=".json"
     on:change={onFileSelect}

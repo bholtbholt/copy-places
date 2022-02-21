@@ -1,6 +1,7 @@
 <script lang="ts">
   export let mapURLs: string[] = [];
 
+  import { scale } from 'svelte/transition';
   import { savePlace } from './savePlace';
   import MapLinks from './MapLinks.svelte';
   import UIButtonCopy from './UIButtonCopy.svelte';
@@ -15,7 +16,7 @@
 
 <div>
   <!-- prettier-ignore -->
-  <pre class="max-h-[70vh] overflow-y-auto p-5 rounded-lg language-js prismjs"><code>
+  <pre class="max-h-[66vh] mb-5 rounded-lg language-js prismjs"><code>
 <span class="comment">// These are the URLs you've uploaded from Google Takeout</span>
 mapURLs <span class="operator">=</span> <span class="punctuation">[</span>
 <MapLinks {mapURLs} />];
@@ -25,7 +26,9 @@ mapURLs <span class="operator">=</span> <span class="punctuation">[</span>
 <span class="comment">// button is present, it clicks it, then clicks the starred places list</span>
 <span class="keyword">function</span> <span class="function">savePlace</span><span class="punctuation">(</span><span class="parameter">link</span><span class="punctuation">)</span> <span class="punctuation">&#123;</span>
   <span class="keyword">const</span> scripts <span class="operator">=</span> <span class="string">`</span>
+    <span class="comment">// Watches for changes on the new tab</span>
     observer <span class="operator">=</span> <span class="keyword">new</span> <span class="class-name">MutationObserver</span><span class="punctuation">(</span><span class="punctuation">(</span><span class="parameter">mutations<span class="punctuation">,</span> me</span><span class="punctuation">)</span> <span class="operator">=&gt;</span> <span class="punctuation">&#123;</span>
+      <span class="comment">// Defines the save button and starred places button</span>
       <span class="keyword">const</span> saveButton <span class="operator">=</span> document<span class="punctuation">.</span><span class="function">querySelector</span><span class="punctuation">(</span><span class="string">'button[data-value="Save"]'</span><span class="punctuation">)</span><span class="punctuation">;</span>
       <span class="keyword">const</span> starredPlacesLI <span class="operator">=</span> document<span class="punctuation">.</span><span class="function">querySelector</span><span class="punctuation">(</span><span class="string">'ul[aria-label="Save in your lists"] li:nth-last-of-type(2)'</span><span class="punctuation">)</span><span class="punctuation">;</span>
 
@@ -43,6 +46,7 @@ mapURLs <span class="operator">=</span> <span class="punctuation">[</span>
         starredPlacesLI<span class="punctuation">.</span><span class="function">click</span><span class="punctuation">(</span><span class="punctuation">)</span><span class="punctuation">;</span>
         console<span class="punctuation">.</span><span class="function">log</span><span class="punctuation">(</span><span class="string">'[Copy Places]: Saved location!'</span><span class="punctuation">)</span><span class="punctuation">;</span>
 
+        <span class="comment">// Stop watching the page</span>
         me<span class="punctuation">.</span><span class="function">disconnect</span><span class="punctuation">(</span><span class="punctuation">)</span><span class="punctuation">;</span>
         <span class="keyword">return</span><span class="punctuation">;</span>
       <span class="punctuation">&#125;</span> <span class="keyword">else</span> <span class="punctuation">&#123;</span>
@@ -65,5 +69,11 @@ mapURLs <span class="operator">=</span> <span class="punctuation">[</span>
 mapURLs<span class="punctuation">.</span><span class="function">forEach</span><span class="punctuation">(</span>savePlace<span class="punctuation">)</span><span class="punctuation">;</span>
 </code></pre>
 
-  <UIButtonCopy class="my-3 mx-auto" {copyText}>Copy code</UIButtonCopy>
+  {#if mapURLs.length}
+    <div in:scale>
+      <UIButtonCopy class="mx-auto" {copyText}>Copy code</UIButtonCopy>
+    </div>
+  {:else}
+    <div class="py-2 text-xl">&nbsp;</div>
+  {/if}
 </div>
