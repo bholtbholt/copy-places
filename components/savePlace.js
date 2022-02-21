@@ -1,30 +1,46 @@
 export function savePlace(link) {
   const scripts = `
-    observer = new MutationObserver((mutations, me) => {
+    buttonObserver = new MutationObserver((mutationsList, observer) => {
       const saveButton = document.querySelector('button[data-value="Save"]');
-      const starredPlacesLI = document.querySelector('ul[aria-label="Save in your lists"] li:nth-last-of-type(2)');
 
-      // Sometimes the click doesn't register, so another click is needed
+      console.log('[Copy Places]: Looking for save button');
       if (saveButton) {
         console.log('[Copy Places]: Found save button');
         saveButton.click();
-      } else {
-        console.log('[Copy Places]: Looking for save button');
-      }
 
+        observer.disconnect();
+        return;
+      }
+    });
+
+    listObserver = new MutationObserver((mutationsList, observer) => {
+      const starredPlacesLI = document.querySelector('ul[aria-label="Save in your lists"] li:nth-last-of-type(2)');
+
+      console.log('[Copy Places]: Looking for starred places button');
       if (starredPlacesLI) {
         console.log('[Copy Places]: Found starred places button');
         starredPlacesLI.click();
         console.log('[Copy Places]: Saved location!');
 
-        me.disconnect();
+        observer.disconnect();
         return;
-      } else {
-        console.log('[Copy Places]: Looking for starred places button');
       }
     });
 
-    observer.observe(document, { childList: true, subtree: true });
+    savedObserver = new MutationObserver((mutationsList, observer) => {
+      const saveButton = document.querySelector('button[data-value="Save"]');
+
+      console.log('[Copy Places]: Confirming save and preparing to close tab');
+      if (saveButton.textContent === "Saved") {
+        observer.disconnect();
+        self.close();
+        return;
+      }
+    });
+
+    buttonObserver.observe(document, { childList: true, subtree: true });
+    listObserver.observe(document, { childList: true, subtree: true });
+    savedObserver.observe(document, { childList: true, subtree: true });
     console.log('[Copy Places]: Preparing to save place');
   `;
 

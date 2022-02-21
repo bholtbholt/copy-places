@@ -26,35 +26,50 @@ mapURLs <span class="operator">=</span> <span class="punctuation">[</span>
 <span class="comment">// button is present, it clicks it, then clicks the starred places list</span>
 <span class="keyword">function</span> <span class="function">savePlace</span><span class="punctuation">(</span><span class="parameter">link</span><span class="punctuation">)</span> <span class="punctuation">&#123;</span>
   <span class="keyword">const</span> scripts <span class="operator">=</span> <span class="string">`</span>
-    <span class="comment">// Watches for changes on the new tab</span>
-    observer <span class="operator">=</span> <span class="keyword">new</span> <span class="class-name">MutationObserver</span><span class="punctuation">(</span><span class="punctuation">(</span><span class="parameter">mutations<span class="punctuation">,</span> me</span><span class="punctuation">)</span> <span class="operator">=&gt;</span> <span class="punctuation">&#123;</span>
-      <span class="comment">// Defines the save button and starred places button</span>
+    <span class="comment">// Look for the save button, then click on it when it's found</span>
+    buttonObserver <span class="operator">=</span> <span class="keyword">new</span> <span class="class-name">MutationObserver</span><span class="punctuation">(</span><span class="punctuation">(</span><span class="parameter">mutationsList<span class="punctuation">,</span> observer</span><span class="punctuation">)</span> <span class="operator">=&gt;</span> <span class="punctuation">&#123;</span>
       <span class="keyword">const</span> saveButton <span class="operator">=</span> document<span class="punctuation">.</span><span class="function">querySelector</span><span class="punctuation">(</span><span class="string">'button[data-value="Save"]'</span><span class="punctuation">)</span><span class="punctuation">;</span>
-      <span class="keyword">const</span> starredPlacesLI <span class="operator">=</span> document<span class="punctuation">.</span><span class="function">querySelector</span><span class="punctuation">(</span><span class="string">'ul[aria-label="Save in your lists"] li:nth-last-of-type(2)'</span><span class="punctuation">)</span><span class="punctuation">;</span>
 
-      <span class="comment">// Look for the save button, then click on it when it's found</span>
+      console<span class="punctuation">.</span><span class="function">log</span><span class="punctuation">(</span><span class="string">'[Copy Places]: Looking for save button'</span><span class="punctuation">)</span><span class="punctuation">;</span>
       <span class="keyword">if</span> <span class="punctuation">(</span>saveButton<span class="punctuation">)</span> <span class="punctuation">&#123;</span>
         console<span class="punctuation">.</span><span class="function">log</span><span class="punctuation">(</span><span class="string">'[Copy Places]: Found save button'</span><span class="punctuation">)</span><span class="punctuation">;</span>
         saveButton<span class="punctuation">.</span><span class="function">click</span><span class="punctuation">(</span><span class="punctuation">)</span><span class="punctuation">;</span>
-      <span class="punctuation">&#125;</span> <span class="keyword">else</span> <span class="punctuation">&#123;</span>
-        console<span class="punctuation">.</span><span class="function">log</span><span class="punctuation">(</span><span class="string">'[Copy Places]: Looking for save button'</span><span class="punctuation">)</span><span class="punctuation">;</span>
-      <span class="punctuation">&#125;</span>
 
-      <span class="comment">// Wait for the dropdown menu to open, then click on Starred Places</span>
+        observer<span class="punctuation">.</span><span class="function">disconnect</span><span class="punctuation">(</span><span class="punctuation">)</span><span class="punctuation">;</span>
+        <span class="keyword">return</span><span class="punctuation">;</span>
+      <span class="punctuation">&#125;</span>
+    <span class="punctuation">&#125;</span><span class="punctuation">)</span><span class="punctuation">;</span>
+
+    <span class="comment">// Wait for the dropdown menu to open, then click on Starred Places</span>
+    listObserver <span class="operator">=</span> <span class="keyword">new</span> <span class="class-name">MutationObserver</span><span class="punctuation">(</span><span class="punctuation">(</span><span class="parameter">mutationsList<span class="punctuation">,</span> observer</span><span class="punctuation">)</span> <span class="operator">=&gt;</span> <span class="punctuation">&#123;</span>
+      <span class="keyword">const</span> starredPlacesLI <span class="operator">=</span> document<span class="punctuation">.</span><span class="function">querySelector</span><span class="punctuation">(</span><span class="string">'ul[aria-label="Save in your lists"] li:nth-last-of-type(2)'</span><span class="punctuation">)</span><span class="punctuation">;</span>
+
+      console<span class="punctuation">.</span><span class="function">log</span><span class="punctuation">(</span><span class="string">'[Copy Places]: Looking for starred places button'</span><span class="punctuation">)</span><span class="punctuation">;</span>
       <span class="keyword">if</span> <span class="punctuation">(</span>starredPlacesLI<span class="punctuation">)</span> <span class="punctuation">&#123;</span>
         console<span class="punctuation">.</span><span class="function">log</span><span class="punctuation">(</span><span class="string">'[Copy Places]: Found starred places button'</span><span class="punctuation">)</span><span class="punctuation">;</span>
         starredPlacesLI<span class="punctuation">.</span><span class="function">click</span><span class="punctuation">(</span><span class="punctuation">)</span><span class="punctuation">;</span>
         console<span class="punctuation">.</span><span class="function">log</span><span class="punctuation">(</span><span class="string">'[Copy Places]: Saved location!'</span><span class="punctuation">)</span><span class="punctuation">;</span>
 
-        <span class="comment">// Stop watching the page</span>
-        me<span class="punctuation">.</span><span class="function">disconnect</span><span class="punctuation">(</span><span class="punctuation">)</span><span class="punctuation">;</span>
+        observer<span class="punctuation">.</span><span class="function">disconnect</span><span class="punctuation">(</span><span class="punctuation">)</span><span class="punctuation">;</span>
         <span class="keyword">return</span><span class="punctuation">;</span>
-      <span class="punctuation">&#125;</span> <span class="keyword">else</span> <span class="punctuation">&#123;</span>
-        console<span class="punctuation">.</span><span class="function">log</span><span class="punctuation">(</span><span class="string">'[Copy Places]: Looking for starred places button'</span><span class="punctuation">)</span><span class="punctuation">;</span>
       <span class="punctuation">&#125;</span>
     <span class="punctuation">&#125;</span><span class="punctuation">)</span><span class="punctuation">;</span>
 
-    observer<span class="punctuation">.</span><span class="function">observe</span><span class="punctuation">(</span>document<span class="punctuation">,</span> <span class="punctuation">&#123;</span> <span class="literal-property property">childList</span><span class="operator">:</span> <span class="boolean">true</span><span class="punctuation">,</span> <span class="literal-property property">subtree</span><span class="operator">:</span> <span class="boolean">true</span> <span class="punctuation">&#125;</span><span class="punctuation">)</span><span class="punctuation">;</span>
+    <span class="comment">// Close the tab when the save button changes to Saved</span>
+    savedObserver <span class="operator">=</span> <span class="keyword">new</span> <span class="class-name">MutationObserver</span><span class="punctuation">(</span><span class="punctuation">(</span><span class="parameter">mutationsList<span class="punctuation">,</span> observer</span><span class="punctuation">)</span> <span class="operator">=&gt;</span> <span class="punctuation">&#123;</span>
+      <span class="keyword">const</span> saveButton <span class="operator">=</span> document<span class="punctuation">.</span><span class="function">querySelector</span><span class="punctuation">(</span><span class="string">'button[data-value="Save"]'</span><span class="punctuation">)</span><span class="punctuation">;</span>
+
+      console<span class="punctuation">.</span><span class="function">log</span><span class="punctuation">(</span><span class="string">'[Copy Places]: Confirming save and preparing to close tab'</span><span class="punctuation">)</span><span class="punctuation">;</span>
+      <span class="keyword">if</span> <span class="punctuation">(</span>saveButton<span class="punctuation">.</span>textContent <span class="operator">===</span> <span class="string">"Saved"</span><span class="punctuation">)</span> <span class="punctuation">&#123;</span>
+        observer<span class="punctuation">.</span><span class="function">disconnect</span><span class="punctuation">(</span><span class="punctuation">)</span><span class="punctuation">;</span>
+        self<span class="punctuation">.</span><span class="function">close</span><span class="punctuation">(</span><span class="punctuation">)</span><span class="punctuation">;</span>
+        <span class="keyword">return</span><span class="punctuation">;</span>
+      <span class="punctuation">&#125;</span>
+    <span class="punctuation">&#125;</span><span class="punctuation">)</span><span class="punctuation">;</span>
+
+    buttonObserver<span class="punctuation">.</span><span class="function">observe</span><span class="punctuation">(</span>document<span class="punctuation">,</span> <span class="punctuation">&#123;</span> <span class="literal-property property">childList</span><span class="operator">:</span> <span class="boolean">true</span><span class="punctuation">,</span> <span class="literal-property property">subtree</span><span class="operator">:</span> <span class="boolean">true</span> <span class="punctuation">&#125;</span><span class="punctuation">)</span><span class="punctuation">;</span>
+    listObserver<span class="punctuation">.</span><span class="function">observe</span><span class="punctuation">(</span>document<span class="punctuation">,</span> <span class="punctuation">&#123;</span> <span class="literal-property property">childList</span><span class="operator">:</span> <span class="boolean">true</span><span class="punctuation">,</span> <span class="literal-property property">subtree</span><span class="operator">:</span> <span class="boolean">true</span> <span class="punctuation">&#125;</span><span class="punctuation">)</span><span class="punctuation">;</span>
+    savedObserver<span class="punctuation">.</span><span class="function">observe</span><span class="punctuation">(</span>document<span class="punctuation">,</span> <span class="punctuation">&#123;</span> <span class="literal-property property">childList</span><span class="operator">:</span> <span class="boolean">true</span><span class="punctuation">,</span> <span class="literal-property property">subtree</span><span class="operator">:</span> <span class="boolean">true</span> <span class="punctuation">&#125;</span><span class="punctuation">)</span><span class="punctuation">;</span>
     console<span class="punctuation">.</span><span class="function">log</span><span class="punctuation">(</span><span class="string">'[Copy Places]: Preparing to save place'</span><span class="punctuation">)</span><span class="punctuation">;</span>
   <span class="string">`</span><span class="punctuation">;</span>
 
