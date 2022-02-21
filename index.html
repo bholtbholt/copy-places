@@ -2,8 +2,17 @@
 <html lang="en" class="text-slate-500 dark:text-slate-400 bg-white dark:bg-slate-900">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" href="/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Copy starred places from one Google Maps account to another."
+    />
+    <meta name="keywords" content="Google Maps, Starred Places, Transfer, Copy, Move" />
+    <link rel="icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
     <title>Copy Places</title>
     <link rel="stylesheet" href="./entry/style.css" />
     <link rel="stylesheet" href="./entry/prism.css" />
@@ -11,49 +20,51 @@
   <body class="mx-6 lg:mx-16 xl:mx-24 max-w-7xl">
     <main id="app" class="lg:grid lg:grid-cols-2 gap-12 items-center py-10"></main>
 
-    <section class="py-10 prose prose-slate dark:prose-invert max-w-none lg:prose-xl">
-      <p>
-        Google Maps doesn't support importing data, so the only way to save a place is to
-        visit it and manually click on the button. I had over 750 starred places around
-        the world, so I wrote this script to automate the task. The script opens each
-        place in a new tab, then finds and clicks the Save button.
-      </p>
-      <h2>How to copy starred places</h2>
+    <section class="mb-20 prose prose-slate dark:prose-invert max-w-none lg:prose-xl">
+      <h1 class="text-blue-500 font-extrabold tracking-tight !text-4xl">
+        Copy your starred places in 4 steps:
+      </h1>
       <ol>
         <li>
           Export your maps data from
           <a href="https://takeout.google.com/settings/takeout" target="_blank">
             Google Takeout </a
           >.
-          <a
-            href="#how-to-export-data-from-google-takeout"
-            class="text-sm no-underline hidden"
-          >
-            See detailed instructions.
-          </a>
         </li>
+        <li>Upload <code>Takeout/Maps (your places)/Saved Places.json</code>.</li>
+        <li>Copy the generated code.</li>
         <li>
-          Upload <code>Takeout/Maps (your places)/Saved Places.json</code>
-          to the form above.
-        </li>
-        <li>
-          In a new tab, open
-          <a href="https://www.google.com/maps" target="_blank">Google Maps</a>
-          and switch to the <em>other Google Account</em>.
-        </li>
-        <li>
-          Copy the generated code from above, then paste it into the JavaScript Console.
+          Open <a href="https://www.google.com/maps" target="_blank">Google Maps</a>,
+          switch accounts, then paste into the JavaScript Console.
         </li>
       </ol>
     </section>
 
-    <section class="py-10 prose prose-slate dark:prose-invert">
-      <h2>FAQ</h2>
+    <section class="mb-20 prose prose-slate dark:prose-invert">
+      <h2 class="text-blue-500 font-extrabold tracking-tight !text-3xl">
+        Frequently Asked Questions
+      </h2>
       <dl>
-        <dt id="how-to-export-data-from-google-takeout">
-          <h3>How to export data from Google Takeout.</h3>
+        <dt class="font-extrabold text-2xl" id="why-does-this-exist">
+          Why does this exist?
         </dt>
-        <dl>
+        <dd class="mb-10">
+          Google Maps doesn't support importing data, so the only way to transfer saved
+          places is to visit the page and manually click on the link. I had over 750
+          starred places from around the world, so I wrote this script to automate the
+          task. I hope it helps you!
+        </dd>
+        <dt class="font-extrabold text-2xl" id="what-does-this-code-do">
+          What does the code do?
+        </dt>
+        <dd class="mb-10">
+          Opens each saved place in a new tab, finds the Save button, clicks on it, waits
+          for the dropdown menu to open, then clicks on Starred Places.
+        </dd>
+        <dt class="font-extrabold text-2xl" id="how-to-export-data-from-google-takeout">
+          How do I export data from Google Takeout?
+        </dt>
+        <dd class="mb-10">
           <ol>
             <li>
               Visit
@@ -67,7 +78,7 @@
             <li>
               Under Choose file type, frequency & destination, select
               <strong>Export once</strong>
-              and <strong>.zip</strong> file type.
+              and <strong>.zip</strong>.
             </li>
             <li>Click <strong>Create export</strong> at the bottom the page.</li>
             <li>
@@ -81,39 +92,103 @@
               to the form above.
             </li>
           </ol>
-          <dt><h3>How to open the JavaScript Console</h3></dt>
-          <dl>
-            It's a little different in each browser, but in most you can right-click and
-            choose Inspect. On Google Maps, you'll need to click on something
-            <em>other than the map itself</em>, like the Search Google Maps input box.
-            <ul>
-              <li>
-                <strong>On Chrome:</strong> ⌘ + shift + j or ctrl + shift + j or
-                right-click and choose Inspect or View > Developer > JavaScript Console
-              </li>
-              <li>
-                <strong>On Firefox:</strong> ⌘ + shift + j or ctrl + shift + j or
-                right-click and choose Inspect or Tools > Browser Tools > Browser Console
-              </li>
-              <li>
-                <strong>On Safari:</strong> ⌘ + ctrl + c or right-click and choose Inspect
-                Element or Develop > Show JavaScript Console. You'll need to enable the
-                Develop menu in Preferences > Advanced > Show Develop menu in menu bar.
-              </li>
-            </ul>
-          </dl>
-          <dt>
-            <h3>I got "TypeError: null is not an object" after pasting the code!</h3>
-          </dt>
-          <dl>
-            Your pop-up blocker is blocking the script. You'll need to enable pop-ups
-            momentarily and can usually do it by clicking on the pop-up icon in the
-            address bar.
-          </dl>
-        </dl>
+        </dd>
+        <dt class="font-extrabold text-2xl" id="how-to-open-the-javascript-console">
+          How do I open the JavaScript Console?
+        </dt>
+        <dd class="mb-10">
+          It's a little different in each browser, but in most you can right-click and
+          choose Inspect. On Google Maps, you'll need to click on something
+          <em>other than the map itself</em>, like the Search Google Maps… input box.
+          <ul>
+            <li>
+              <strong>On Chrome:</strong> ⌘ + shift + j or ctrl + shift + j or right-click
+              and choose Inspect or View > Developer > JavaScript Console
+            </li>
+            <li>
+              <strong>On Firefox:</strong> ⌘ + shift + j or ctrl + shift + j or
+              right-click and choose Inspect or Tools > Browser Tools > Browser Console
+            </li>
+            <li>
+              <strong>On Safari:</strong> ⌘ + ctrl + c or right-click and choose Inspect
+              Element or Develop > Show JavaScript Console. You'll need to enable the
+              Develop menu in Preferences > Advanced > Show Develop menu in menu bar.
+            </li>
+          </ul>
+        </dd>
+        <dt class="font-extrabold text-2xl" id="what-is-the-javascript-console">
+          What is the JavaScript Console?
+        </dt>
+        <dd class="mb-10">
+          The JavaScript Console is a tool for developers to run code in browsers.
+        </dd>
+        <dt
+          class="font-extrabold text-2xl"
+          id="why-do-i-need-to-use-the-javascript-console"
+        >
+          Why do I need to use the JavaScript Console?
+        </dt>
+        <dd class="mb-10">
+          Browsers prevent websites from opening <em>other</em> websites and running code
+          for really good security reasons, but websites can open the <em>same</em>
+          website. By pasting the script in the JavaScript Console when you visit Google
+          Maps, you can open other Google Maps pages and run code. It's a security
+          workaround that's like hacking yourself 🤓.
+        </dd>
+        <dt class="font-extrabold text-2xl" id="is-this-safe">Is this safe?</dt>
+        <dd class="mb-10">
+          Yes, this code is safe. You can read all of it above and see the
+          <a href="https://github.com/bholtbholt/copy-places" target="_blank">source</a>.
+          That said, I'm a stranger on the internet. You shouldn't ever paste code into
+          the JavaScript Console without knowing what it does. Use this at your own risk!
+        </dd>
+        <dt class="font-extrabold text-2xl" id="i-do-not-want-to-use-the-console">
+          I don't want to use the JavaScript Console.
+        </dt>
+        <dd class="mb-10">
+          That's ok! The process can't be automated without the JavaScript Console, but
+          you can visit all the links yourself and save each place. Just click on the URLs
+          in the code preview after you upload <code>Saved Places.json</code>.
+        </dd>
+        <dt class="font-extrabold text-2xl" id="what-happens-to-my-data">
+          What happens when I upload my data?
+        </dt>
+        <dd class="mb-10">
+          It reads the <code>Saved Places.json</code> file you upload, finds all the
+          links, then puts them into the code preview at the top of the page. No data is
+          transferred anywhere else. No data is read by any person. When you leave the
+          page, the script is cleared forever (you can generate it again by reuploading).
+        </dd>
+        <dt class="font-extrabold text-2xl" id="typeerror-null-is-no-an-object">
+          I got "TypeError: null is not an object" after pasting the code into the
+          JavaScript Console!
+        </dt>
+        <dd class="mb-10">
+          Your pop-up blocker is blocking the script from opening the URLs in new tabs.
+          You'll need to enable pop-ups momentarily and can usually do it by clicking on
+          the pop-up icon in the address bar.
+        </dd>
+        <dt class="font-extrabold text-2xl" id="code-does-not-work">
+          The code doesn't work!
+        </dt>
+        <dd class="mb-10">
+          If you're having a problem it might be because your pop-up blocker is preventing
+          the script from opening the new tabs. Or Google Maps could have changed since I
+          last updated this script. If you think that's the case, tweet me at
+          <a href="https://twitter.com/BHOLTBHOLT" target="_blank">@BHOLTBHOLT</a> and
+          I'll see what I can do.
+        </dd>
+        <dt class="font-extrabold text-2xl" id="who-made-this">Who made this?</dt>
+        <dd class="mb-10">
+          👋 Hi! I'm Brian, a software engineer with more than a decade of experience. You
+          find find me on
+          <a href="https://twitter.com/BHOLTBHOLT" target="_blank">Twitter</a>,
+          <a href="https://github.com/bholtbholt" target="_blank">Github</a>, or my
+          <a href="https://brianholt.ca" target="_blank">personal site</a>.
+        </dd>
       </dl>
     </section>
 
-    <script type="module" src="./entry/app.ts"></script>
+    <script type="module" src="./entry/app.ts" defer></script>
   </body>
 </html>
