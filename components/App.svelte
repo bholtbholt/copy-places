@@ -15,7 +15,7 @@
   }
 </script>
 
-<header>
+<header class="my-6">
   <!-- prettier-ignore -->
   <h1 class="text-5xl lg:text-7xl font-extrabold tracking-tight text-blue-500 mb-3 relative">
     Copy Places
@@ -40,7 +40,7 @@
   <input
     id="upload"
     name="upload"
-    class="p-3 rounded-xl bg-slate-200 dark:bg-slate-700 mb-2"
+    class="p-3 rounded-xl bg-slate-200 dark:bg-slate-700 max-w-full mb-2"
     type="file"
     accept=".json"
     on:change={onFileSelect}
