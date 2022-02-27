@@ -50,3 +50,25 @@ export function savePlace(link) {
     console.log(`[Copy Places]: Saved ${link}`);
   };
 }
+
+export function openInChunks(urls = []) {
+  const chunkSize = 5;
+  const chunks = urls.reduce((chunks, url, index) => {
+    const chunkIndex = Math.floor(index / chunkSize);
+    if (!chunks[chunkIndex]) {
+      chunks[chunkIndex] = [];
+    }
+
+    chunks[chunkIndex].push(url);
+
+    return chunks;
+  }, []);
+
+  chunks.forEach((chunk, index) => {
+    const millisecondOffset = 5000 * index;
+
+    setTimeout(() => {
+      chunk.forEach(savePlace);
+    }, millisecondOffset);
+  });
+}

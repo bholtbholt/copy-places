@@ -2,15 +2,16 @@
   export let mapURLs: string[] = [];
 
   import { scale } from 'svelte/transition';
-  import { savePlace } from './savePlace';
+  import { openInChunks, savePlace } from './scripts';
   import MapLinks from './MapLinks.svelte';
   import UIButtonCopy from './UIButtonCopy.svelte';
 
-  // Wrap each URL in quotes to create valid JavaScript for the clipboard
+  // Wrap each URL in backticks to create valid JavaScript for the clipboard
   $: copyText = `
-    mapURLs=[${mapURLs.map((url) => `'${url}'`)}];
     ${savePlace}
-    mapURLs.forEach(savePlace);
+    ${openInChunks}
+    mapURLs=[${mapURLs.map((url) => `\`${url}\``)}];
+    openInChunks(mapURLs);
   `.trim();
 </script>
 
@@ -80,8 +81,32 @@ mapURLs <span class="operator">=</span> <span class="punctuation">[</span>
   <span class="punctuation">&#125;</span><span class="punctuation">;</span>
 <span class="punctuation">&#125;</span>
 
-<span class="comment">// This function loops through all the URLs and opens them in a new tab</span>
-mapURLs<span class="punctuation">.</span><span class="function">forEach</span><span class="punctuation">(</span>savePlace<span class="punctuation">)</span><span class="punctuation">;</span>
+<span class="comment">// This function groups URLs in chunks of 5 to lessen the CPU load</span>
+<span class="comment">// then it opens batches of URLs in new tabs every 5 seconds</span>
+<span class="keyword">function</span> <span class="function">openInChunks</span><span class="punctuation">(</span><span class="parameter">urls <span class="operator">=</span> <span class="punctuation">[</span><span class="punctuation">]</span></span><span class="punctuation">)</span> <span class="punctuation">&#123;</span>
+  <span class="keyword">const</span> chunkSize <span class="operator">=</span> <span class="number">5</span><span class="punctuation">;</span>
+  <span class="keyword">const</span> chunks <span class="operator">=</span> urls<span class="punctuation">.</span><span class="function">reduce</span><span class="punctuation">(</span><span class="punctuation">(</span><span class="parameter">chunks<span class="punctuation">,</span> url<span class="punctuation">,</span> index</span><span class="punctuation">)</span> <span class="operator">=&gt;</span> <span class="punctuation">&#123;</span>
+    <span class="keyword">const</span> chunkIndex <span class="operator">=</span> Math<span class="punctuation">.</span><span class="function">floor</span><span class="punctuation">(</span>index <span class="operator">/</span> chunkSize<span class="punctuation">)</span><span class="punctuation">;</span>
+    <span class="keyword">if</span> <span class="punctuation">(</span><span class="operator">!</span>chunks<span class="punctuation">[</span>chunkIndex<span class="punctuation">]</span><span class="punctuation">)</span> <span class="punctuation">&#123;</span>
+      chunks<span class="punctuation">[</span>chunkIndex<span class="punctuation">]</span> <span class="operator">=</span> <span class="punctuation">[</span><span class="punctuation">]</span><span class="punctuation">;</span>
+    <span class="punctuation">&#125;</span>
+
+    chunks<span class="punctuation">[</span>chunkIndex<span class="punctuation">]</span><span class="punctuation">.</span><span class="function">push</span><span class="punctuation">(</span>url<span class="punctuation">)</span><span class="punctuation">;</span>
+
+    <span class="keyword">return</span> chunks<span class="punctuation">;</span>
+  <span class="punctuation">&#125;</span><span class="punctuation">,</span> <span class="punctuation">[</span><span class="punctuation">]</span><span class="punctuation">)</span><span class="punctuation">;</span>
+
+  chunks<span class="punctuation">.</span><span class="function">forEach</span><span class="punctuation">(</span><span class="punctuation">(</span><span class="parameter">chunk<span class="punctuation">,</span> index</span><span class="punctuation">)</span> <span class="operator">=&gt;</span> <span class="punctuation">&#123;</span>
+    <span class="keyword">const</span> millisecondOffset <span class="operator">=</span> <span class="number">5000</span> <span class="operator">*</span> index<span class="punctuation">;</span>
+
+    <span class="function">setTimeout</span><span class="punctuation">(</span><span class="punctuation">(</span><span class="punctuation">)</span> <span class="operator">=&gt;</span> <span class="punctuation">&#123;</span>
+      chunk<span class="punctuation">.</span><span class="function">forEach</span><span class="punctuation">(</span>savePlace<span class="punctuation">)</span><span class="punctuation">;</span>
+    <span class="punctuation">&#125;</span><span class="punctuation">,</span> millisecondOffset<span class="punctuation">)</span><span class="punctuation">;</span>
+  <span class="punctuation">&#125;</span><span class="punctuation">)</span><span class="punctuation">;</span>
+<span class="punctuation">&#125;</span>
+
+<span class="comment">// After the setup, call the function</span>
+<span class="function">openInChunks</span><span class="punctuation">(</span>mapURLs<span class="punctuation">)</span><span class="punctuation">;</span>
 </code></pre>
 
   {#if mapURLs.length}

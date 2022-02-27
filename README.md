@@ -27,3 +27,7 @@ npm run dev
 
 - `./components`: App UI, written in Svelte.
 - `./entry`: CSS + JavaScript entry files.
+
+# References
+
+- [PrismJS Testdrive](https://prismjs.com/test.html#language=javascript): For updating preview syntax highlighting
